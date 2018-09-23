@@ -2,7 +2,7 @@ App = React.createClass({
   getInitialState() {
     return {
       loading: false,
-      searchTerm = '',
+      searchTerm: '',
       gif: {}
     };
   },
