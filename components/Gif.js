@@ -1,4 +1,6 @@
 var GIPHY_LOADING_URL = 'http://www.ifmo.ru/images/loader.gif';
+var GIPHY_API_URL = 'https://api.giphy.com/v1/';
+var GIPHY_PUB_KEY = 'IEC1ucHDLVlkAX57uqiTnl5n9L9GMvrs';
 var styles = {
   mixHeight: '300px',
   margin: '0.5em'
