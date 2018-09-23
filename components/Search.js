@@ -8,7 +8,7 @@ Search = React.createClass({
   handleChange: function(e) {
     var searchTerm = e.target.value;
     this.setState({
-      searchTerm: searchTerm;
+      searchTerm: searchTerm
     });
   },
 
