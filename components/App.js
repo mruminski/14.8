@@ -12,30 +12,35 @@ App = React.createClass({
       loading: true
     });
 
-    this.getGif(searchTerm, function(gif) {
+    this.getGif(searchTerm).then(gif => {
       this.setState({
         loading: false,
         gif: gif,
         searchTerm: searchTerm
       });
-    }.bind(this));
+    });
   },
 
-  getGif: function(searchTerm, callback) {
-    var url = GIPHY_API_URL +GIPHY_PUB_KEY +'&tag='+searchTerm+'&rating=G';
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        var data = JSON.parse(xhr.responseText).data;
-        var gif = {
-          url: data.fixed_width_downsampled_url,
-          sourceUrl: data.url
-        };
-        callback(gif)
-      }
-    };
-    xhr.send();
+  getGif: function(searchTerm) {
+    return new Promise(function(resolve, reject) {
+      const url =
+        GIPHY_API_URL + GIPHY_PUB_KEY + '&tag=' + searchTerm + '&rating=G';
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.onload = function() {
+        if (this.status === 200) {
+          const data = JSON.parse(xhr.responseText).data;
+          const gif = {
+            url: data.fixed_width_downsampled_url,
+            sourceUrl: data.url
+          };
+          resolve(gif);
+        } else {
+          reject(Error(xhr.statusText()));
+        }
+      };
+      xhr.send();
+    });
   },
 
   render: function() {
@@ -52,7 +57,7 @@ App = React.createClass({
           Find GIF on <a href='http://giphy.com'>giphy</a>
           To get next gif click Enter
         </p>
-        <Search onSearch={this.handleSearch}/>
+        <Search onSearch={this.handleSearch} />
         <Gif
           loading={this.state.loading}
           url={this.state.gif.url}
